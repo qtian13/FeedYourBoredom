@@ -96,17 +96,13 @@ Our application uses a Yelp API that needs a little extra help to make our websi
 - [Link to Github](https://github.com/qtian13)
 - [Link to LinkedIn](https://www.linkedin.com/in/qiushuang-tian-a9754248/)
 
-See also the list of [contributors](https://github.com/JessGiannini/
-FeedYourBoredom/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/JessGiannini/FeedYourBoredom/graphs/contributors) who participated in this project.
 
 ## Acknowledgments
 
 - Thank you to the libraries we used to style our application! We loved Font Awesome, Bulma, Google Fonts, and Open Layers for giving us tons of styling as well as a functioning map.
 - We were inspired by Manuel Nunes and Sarah Cullen for pushing us to stick with our harder concept. As well as supporting us along the way!
 - Cheers to our team for pushing through and finding better ways to work with each other!
-
-## URL Page
-https://jessgiannini.github.io/FeedYourBoredom/
 
 ## Medium Blog Posts
 - [J.Giannini](https://medium.com/@jessgiannini/feed-your-boredom-6aa95ca77335)

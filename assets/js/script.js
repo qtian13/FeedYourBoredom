@@ -73,9 +73,9 @@ function loadBusinessesSaved() {
 
 function listActivitiesSaved() {
   for (var i = 0; i < activitiesSaved.length; i++) {
-    var nameEl = $("<div>").text(activitiesSaved[i].name);
-    nameEl.attr("data-id", activitiesSaved[i].id);
-    nameEl.addClass("activity-saved panel-block");
+    var nameEl = $("<div>").attr("data-id", activitiesSaved[i].id).addClass("activity-saved panel-block is-flex is-justify-content-space-between");
+    var deleteButton = $("<button>").text("x").addClass("button is-inline-block").css("border", "none");
+    nameEl.append($("<p>").text(activitiesSaved[i].name), deleteButton);
     $(".favorite-activity-box").prepend(nameEl);
   }
 }
@@ -141,8 +141,9 @@ function submitEventHandlerBored(event) {
     });
 }
 
-function displayActivitySaved() {
-  var key = $(this).attr("data-id");
+function displayActivitySaved(selectedActivity) {
+  var key = $(selectedActivity).attr("data-id");
+  console.log(key);
   var requestURL = "https://www.boredapi.com/api/activity/?key=" + key;
   fetch(requestURL)
     .then(function (response) {
@@ -362,15 +363,16 @@ function displayBusinessDetails(businessSelected) {
 
 function saveBoredResult() {
   var relistNeeded = false;
+  console.log(this);
   var name = $(this).attr("data-name");
   var id = $(this).attr("data-id");
   var resultToAdd = {
     name: name,
     id: id,
   };
-  var nameEl = $("<div>").text(name);
-  nameEl.attr("data-id", id);
-  nameEl.addClass("activity-saved panel-block");
+
+  var deleteButton = $("<button>").text("x").addClass("button").css("border", "none");
+  var nameEl = $("<div>").attr("data-id", id).addClass("activity-saved panel-block is-flex is-justify-content-space-between").append($("<p>").text(name), deleteButton);
 
   if (activitiesSaved === null) {
     activitiesSaved = [];
@@ -677,7 +679,16 @@ $(document).on("click", "#save-business-button", saveYelpResult);
 
 $(document).on("click", ".business-saved", displayBusinessSaved);
 
-$(document).on("click", ".activity-saved", displayActivitySaved);
+// $(document).on("click", ".activity-saved", displayActivitySaved);
+$(document).on("click", ".activity-saved", function() {
+  if ($(event.target).hasClass("button")) {
+    activitiesSaved = activitiesSaved.filter(term => term.id !== $(this).attr("data-id"));
+    localStorage.setItem("activitiesSaved", JSON.stringify(activitiesSaved));
+    $(this).remove();
+  } else {
+    displayActivitySaved(this);
+  }
+});
 
 $(document).on("click", "#save-activity-button", saveBoredResult);
 
@@ -693,17 +704,13 @@ $(document).on("click", "#small-map", function () {
 });
 
 $(document).on("click", ".modal-close", function () {
-  console.log(this);
   $(this).closest(".modal").removeClass("is-active");
 });
 
 $(document).on("click", ".modal", function (event) {
   if ($(event.target).hasClass("modal-background")) {
     $(this).removeClass("is-active");
-    console.log("I am executed");
   }
-  console.log(event.target);
-  console.log(this);
 });
 
 //final resize for responsiveness

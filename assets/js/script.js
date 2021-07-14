@@ -7,36 +7,18 @@ var activitiesSaved = [];
 var largeMap;
 var numOfResultsInList = 8;
 var indexOfFirstBusinessDisplayed;
-var activityType = [
-  "education",
-  "recreational",
-  "social",
-  "diy",
-  "charity",
-  "cooking",
-  "relaxation",
-  "music",
-  "busywork",
-];
+var activityType = ["education", "recreational", "social", "diy", "charity", "cooking", "relaxation", "music", "busywork"];
 
 // both the placeholderEl are styled using Bulma
+var actPlaceholderEl = $("<p>").addClass("card-content has-text-grey pt-0 is-size-5")
+                              .text("Please select an activity type on the left and click search button to check your choices!")
+                              .appendTo(activityDisplayEl);
 
-var actPlaceholderEl = $("<p>")
-  .addClass("card-content has-text-grey pt-0 is-size-5")
-  .text(
-    "Please select an activity type on the left and click search button to check your choices!"
-  );
-activityDisplayEl.append(actPlaceholderEl);
-
-var busPlaceholderEl = $("<p>")
-  .addClass("card-content has-text-grey is-size-5")
-  .text(
-    "Please type in the location to check some good places! You could also use key words and select the price range(s) which is optional!"
-  );
-businessDisplayEl.append(busPlaceholderEl);
+var busPlaceholderEl = $("<p>").addClass("card-content has-text-grey is-size-5")
+                              .text("Please type in the location to check some good places! You could also use key words and select the price range(s) which is optional!")
+                              .appendTo(businessDisplayEl);
 
 // these clear functions were fun to write and in the future we will use similar code to add a function to remove only one item from the list
-
 function clearActivities() {
   activitiesSaved = [];
   localStorage.removeItem("activitiesSaved");
@@ -50,7 +32,6 @@ function clearBusinesses() {
 }
 
 // check localStorage to load and display the businesses or activities saved if any
-
 function loadActivitiesSaved() {
   activitiesSaved = JSON.parse(localStorage.getItem("activitiesSaved"));
   if (activitiesSaved === null) {
@@ -70,7 +51,6 @@ function loadBusinessesSaved() {
 }
 
 // these functions are used to list and display using buima
-
 function listActivitiesSaved() {
   for (var i = 0; i < activitiesSaved.length; i++) {
     var nameEl = $("<div>").attr("data-id", activitiesSaved[i].id).addClass("activity-saved panel-block is-flex is-justify-content-space-between");
@@ -90,7 +70,6 @@ function listBusinessesSaved() {
 }
 
 // these two functions were created to make the tab section allowing the user to quickly find stored activities or restaurants
-
 function displaySelectedTab() {
   $(".tabs li").removeClass();
   $(this).parent().addClass("is-active");
@@ -98,17 +77,14 @@ function displaySelectedTab() {
 }
 
 function displayTabContent(idActive) {
+  $(".new-search").hide();
+  $(".favorite-activity-box").hide();
+  $(".favorite-business-box").hide();
   if (idActive === "search-tab") {
     $(".new-search").show();
-    $(".favorite-activity-box").hide();
-    $(".favorite-business-box").hide();
   } else if (idActive === "activity-tab") {
-    $(".new-search").hide();
     $(".favorite-activity-box").show();
-    $(".favorite-business-box").hide();
   } else if (idActive === "business-tab") {
-    $(".new-search").hide();
-    $(".favorite-activity-box").hide();
     $(".favorite-business-box").show();
   }
 }
@@ -116,9 +92,7 @@ function displayTabContent(idActive) {
 // function to deal with bored api
 function submitEventHandlerBored(event) {
   event.preventDefault();
-  var requestURL =
-    "https://www.boredapi.com/api/activity/?type=" +
-    $("#activity-type-select").val();
+  var requestURL = "https://www.boredapi.com/api/activity/?type=" + $("#activity-type-select").val();
   fetch(requestURL)
     .then(function (res) {
       return res.json();
@@ -129,13 +103,8 @@ function submitEventHandlerBored(event) {
         return;
       } else {
         displayActivityDetails(data);
-        var saveActivityButton = $("<button>")
-          .addClass("icon")
-          .html("<i class= 'fas fa-heart'></i>")
-          .attr("id", "save-activity-button")
-          .attr("data-id", data.key)
-          .attr("data-name", data.activity)
-          .addClass("button mb-3 ml-5");
+        var saveActivityButton = $("<button>").addClass("button mb-3 ml-5 icon").html("<i class= 'fas fa-heart'></i>")
+                                              .attr("id", "save-activity-button").attr("data-id", data.key).attr("data-name", data.activity)
         activityDisplayEl.append(saveActivityButton);
       }
     });
@@ -157,34 +126,18 @@ function displayActivitySaved(selectedActivity) {
 }
 
 // this funtion is used to fetch specific data from the Bored API and dispaly it using Bulma
-
 function displayActivityDetails(activityData) {
-  var activityEl = $("<div>")
-    .text(activityData.activity)
-    .attr("id", "activity-title")
-    .addClass("card-header-title is-size-4-desktop is-size-5-touch");
+  var activityEl = $("<div>").text(activityData.activity)
+                            .attr("id", "activity-title")
+                            .addClass("card-header-title is-size-4-desktop is-size-5-touch");
   var cardHeader = $("<div>").addClass("card-header").append(activityEl);
-  var priceLabel = $("<span>")
-    .text("Price: ")
-    .addClass("has-text-weight-semibold");
-  var priceEl = $("<div>")
-    .append(priceLabel)
-    .append(" " + activityData.price * 10 + "/10");
-  var accessibilityLabel = $("<span>")
-    .text("Accessibility: ")
-    .addClass("has-text-weight-semibold");
-  var accessibilityEl = $("<div>")
-    .append(accessibilityLabel)
-    .append(" " + activityData.accessibility * 10 + "/10");
-  var participantsLabel = $("<span>")
-    .text("Participants suggested: ")
-    .addClass("has-text-weight-semibold");
-  var participantsEl = $("<div>")
-    .append(participantsLabel)
-    .append(" " + activityData.participants + " person(s)");
-  var cardContent = $("<div>")
-    .addClass("card-content")
-    .append(priceEl, accessibilityEl, participantsEl);
+  var priceLabel = $("<span>").text("Price: ").addClass("has-text-weight-semibold");
+  var priceEl = $("<div>").append(priceLabel).append(" " + activityData.price * 10 + "/10");
+  var accessibilityLabel = $("<span>").text("Accessibility: ").addClass("has-text-weight-semibold");
+  var accessibilityEl = $("<div>").append(accessibilityLabel).append(" " + activityData.accessibility * 10 + "/10");
+  var participantsLabel = $("<span>").text("Participants suggested: ").addClass("has-text-weight-semibold");
+  var participantsEl = $("<div>").append(participantsLabel).append(" " + activityData.participants + " person(s)");
+  var cardContent = $("<div>").addClass("card-content").append(priceEl, accessibilityEl, participantsEl);
 
   activityDisplayEl.empty();
   activityDisplayEl.append(cardHeader, cardContent);

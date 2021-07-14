@@ -82,9 +82,9 @@ function listActivitiesSaved() {
 
 function listBusinessesSaved() {
   for (var i = 0; i < businessesSaved.length; i++) {
-    var nameEl = $("<div>").text(businessesSaved[i].name);
-    nameEl.attr("data-id", businessesSaved[i].id);
-    nameEl.addClass("business-saved panel-block");
+    var nameEl = $("<div>").attr("data-id", businessesSaved[i].id).addClass("business-saved panel-block is-flex is-justify-content-space-between");
+    var deleteButton = $("<button>").text("x").addClass("button is-inline-block").css("border", "none");
+    nameEl.append($("<p>").text(businessesSaved[i].name), deleteButton);
     $(".favorite-business-box").prepend(nameEl);
   }
 }
@@ -192,8 +192,8 @@ function displayActivityDetails(activityData) {
 
 //below you can see the CORS proxy being used with the authorization to access Yelp API
 
-function displayBusinessSaved() {
-  var id = $(this).attr("data-id");
+function displayBusinessSaved(businessSelected) {
+  var id = $(businessSelected).attr("data-id");
   var requestURL =
     "https://cors.bridged.cc/https://api.yelp.com/v3/businesses/" + id;
   fetch(requestURL, {
@@ -398,10 +398,10 @@ function saveBoredResult() {
 function saveYelpResult() {
   var index = $(this).attr("data-index");
   var business = dataFromYelp[index];
-  var nameEl = $("<div>").text(business.name);
+  var nameEl = $("<div>").attr("data-id", business.id).addClass("business-saved panel-block is-flex is-justify-content-space-between");
+  var deleteButton = $("<button>").text("x").addClass("button is-inline-block").css("border", "none");
+  nameEl.append($("<p>").text(business.name), deleteButton);
   var relistNeeded = false;
-  nameEl.attr("data-id", business.id);
-  nameEl.addClass("business-saved panel-block");
   var resultToAdd = {
     name: business.name,
     id: business.id,
@@ -677,7 +677,15 @@ $(document).on("click", "#go-back-button", displayYelpResult);
 
 $(document).on("click", "#save-business-button", saveYelpResult);
 
-$(document).on("click", ".business-saved", displayBusinessSaved);
+$(document).on("click", ".business-saved", function() {
+  if ($(event.target).hasClass("button")) {
+    businessesSaved = businessesSaved.filter(term => term.id !== $(this).attr("data-id"));
+  localStorage.setItem("businessesSaved", JSON.stringify(businessesSaved));
+    $(this).remove();
+  } else {
+    displayBusinessSaved(this);
+  }
+});
 
 // $(document).on("click", ".activity-saved", displayActivitySaved);
 $(document).on("click", ".activity-saved", function() {

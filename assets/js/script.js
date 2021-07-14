@@ -569,19 +569,24 @@ function displayBusinessesResult(indexStart) {
   if (indexStart >= dataFromYelp.length) {
     return;
   }
-  if (indexStart <= 0) {
-    indexStart = 0;
+
+  indexOfFirstBusinessDisplayed = indexStart <= 0 ? 0 : indexStart;
+  var indexOfFirstBusinessNextPage = indexOfFirstBusinessDisplayed + numOfResultsInList;
+
+  $("#prev-results-button").removeClass("is-invisible");
+  $("#next-results-button").removeClass("is-invisible");
+  if (indexOfFirstBusinessDisplayed === 0) {
+    $("#prev-results-button").addClass("is-invisible");
   }
-  indexOfFirstBusinessDisplayed = indexStart;
+  if (indexOfFirstBusinessNextPage >= dataFromYelp.length) {
+    $("#next-results-button").addClass("is-invisible");
+  }
+
   $(".businesses-list-column").html("");
   var businessesList = $("<div>")
     .addClass("columns is-flex is-flex-wrap-wrap")
     .appendTo($(".businesses-list-column"));
-  for (
-    var i = indexStart;
-    i < indexStart + numOfResultsInList && i < dataFromYelp.length;
-    i++
-  ) {
+  for (var i = indexOfFirstBusinessDisplayed; i < indexOfFirstBusinessNextPage && i < dataFromYelp.length; i++) {
     var resEl = $("<div>")
       .attr("data-index", "" + i)
       .addClass(

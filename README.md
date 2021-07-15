@@ -56,6 +56,7 @@ Our application uses a Yelp API that needs a little extra help to make our websi
         - Click the small map to view a larger on featured in `Modal`
         - Click `Go Back` button to go back to results list
         - Click `Heart` button to save to `LocalStorage` which would also be added to the panel of `Business`.
+
 6. The page layout is screen size responsive.
 
 ![list fit desktop screen](assets/images/list_desktop.png)
@@ -63,6 +64,7 @@ Our application uses a Yelp API that needs a little extra help to make our websi
 ![list fit tablet screen](assets/images/list_tablet.png)
 
 ![list fit mobile screen](assets/images/list_mobile.png)
+## Feature added
 
 ## Page Demo
 

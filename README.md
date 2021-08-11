@@ -1,5 +1,7 @@
 # Feed Your Boredom
 
+[![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 We created a platform to end all boredom! The user is lookin for an activity to do with a friend, their family, or even solo. We give them a quick and easy way to find an activity and a restaurant to start their adventure. They can even save their favorite activities and restuarants for use at a later time. The acitivity selector is a random activity generator that they can run again and again. The restaurant selector uses the power of Yelp! In our next update we will be adding the additional function of searching for the activity using yelp as well. This will make doing that activity even easier.
 
 ## Getting Started
@@ -94,7 +96,7 @@ Our application uses a Yelp API that needs a little extra help to make our websi
 
 **Qiushuang Tian**
 
-- [Link to Portfolio Site](https://qtian13.github.io/)
+- [Link to Portfolio Site](https://qtian13.github.io/portfolioUpdate/)
 - [Link to Github](https://github.com/qtian13)
 - [Link to LinkedIn](https://www.linkedin.com/in/qiushuang-tian-a9754248/)
 
